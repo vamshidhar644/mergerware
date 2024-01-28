@@ -15,13 +15,11 @@ Meteor.methods({
   },
 
   'users.login': function ({ email, password }) {
-    // Find the user with the provided email and password in the UsersCollection
     const user = UsersCollection.findOne({ email, password });
 
     if (user) {
       return user._id;
     } else {
-      // If the user is not found, return an error message
       throw new Meteor.Error(
         'authentication-failed',
         'Invalid email or password'
@@ -30,32 +28,42 @@ Meteor.methods({
   },
 
   'users.getUserData': function ({ id }) {
-    // Find the user with the provided email and password in the UsersCollection
     const user = UsersCollection.findOne({ _id: id });
 
     if (user) {
       return user;
     } else {
-      // If the user is not found, return an error message
       throw new Meteor.Error('error', 'Invalid User');
     }
   },
 
   'users.personalInfo': function ({ id, personalInfo }) {
-    // Check if the user with the given id exists
     const user = UsersCollection.findOne({ _id: id });
     if (!user) {
       throw new Meteor.Error('user-not-found', 'User not found.');
     }
 
-    // Update the personalInfo in the UsersCollection
-
-    // console.log(personalInfo);
     UsersCollection.update(
       { _id: id },
       {
         $set: {
           personalInfo: personalInfo,
+        },
+      }
+    );
+  },
+
+  'users.lendingInfo': function ({ id, lendingInfo }) {
+    const user = UsersCollection.findOne({ _id: id });
+    if (!user) {
+      throw new Meteor.Error('user-not-found', 'User not found.');
+    }
+
+    UsersCollection.update(
+      { _id: id },
+      {
+        $set: {
+          lenderInfo: lendingInfo,
         },
       }
     );

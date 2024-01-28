@@ -6,9 +6,7 @@ body{
 
 a, a:hover{
   text-decoration: none;
-
 }
-
 
 .form__parent{
     height: 100vh;
@@ -43,23 +41,6 @@ nav {
   nav a:hover{
     color: white;
   }
-  
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #4caf50;
-  color: #fff;
-}
 
 .dashboard{
   display: flex;
@@ -101,6 +82,17 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  /* background-color: #0056b3; */
 }
 
+.lenderinfo{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.lenderButtons{
+  display: flex;
+  gap: 1.6rem;
+  width: 100%;
+}

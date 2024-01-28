@@ -11,7 +11,7 @@ const postData = () => {
         { id: user, personalInfo: personalInfo },
         (error, result) => {
           if (error) {
-            alert(error.reason || 'Error Fetching user data.');
+            alert(error.reason || 'Error sending data.');
           } else {
             console.log('Updated succesfully');
           }
@@ -20,7 +20,23 @@ const postData = () => {
     }
   };
 
-  return { postPersonalInfo };
+  const postLendingInfo = ({ lendingInfo }) => {
+    if (user) {
+      Meteor.call(
+        'users.lendingInfo',
+        { id: user, lendingInfo: lendingInfo },
+        (error, result) => {
+          if (error) {
+            alert(error.reason || 'Error sending data.');
+          } else {
+            console.log('Updated succesfully');
+          }
+        }
+      );
+    }
+  };
+
+  return { postPersonalInfo, postLendingInfo };
 };
 
 export default postData;

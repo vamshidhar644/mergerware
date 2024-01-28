@@ -11,12 +11,16 @@ const Home = () => {
     getUserDate();
   }, []);
 
+  const fetchAgain = () => {
+    getUserDate();
+  };
+
   if (data) {
     if (data.personalInfo) {
       return data.role === 'lender' ? (
-        <Lender data={data} />
+        <Lender name={data.personalInfo.firstName} />
       ) : data.role === 'borrower' ? (
-        <Borrower />
+        <Borrower name={data.personalInfo.firstName} />
       ) : data.role === 'admin' ? (
         <Admin />
       ) : (

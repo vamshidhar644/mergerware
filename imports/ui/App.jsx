@@ -13,7 +13,6 @@ Meteor.subscribe('users');
 export const App = () => {
   const { user } = UseAuthContext();
 
-  console.log(user);
   return (
     <div className="App">
       <BrowserRouter>
