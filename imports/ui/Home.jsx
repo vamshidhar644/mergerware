@@ -84,6 +84,7 @@ export const UserProfile = () => {
             type="text"
             id="phone"
             name="phone"
+            maxLength={10}
             onChange={handleChange}
             required
           />

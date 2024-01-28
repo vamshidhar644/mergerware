@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import RequestLoan from './RequestLoan';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,7 +70,7 @@ const Borrower = ({ name }) => {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            Item One
+            <RequestLoan />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             Item Two

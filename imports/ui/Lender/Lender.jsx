@@ -66,7 +66,8 @@ const Lender = ({ name }) => {
               aria-label="basic tabs example"
             >
               <Tab label="Loan Requests" {...a11yProps(0)} />
-              <Tab label="Previous Trnsactions" {...a11yProps(1)} />
+              <Tab label="Pending Transactions" {...a11yProps(1)} />
+              <Tab label="Previous Transactions" {...a11yProps(2)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>

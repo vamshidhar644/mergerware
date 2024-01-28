@@ -68,6 +68,22 @@ Meteor.methods({
       }
     );
   },
+
+  'users.getLendersData': function () {
+    const lenders = UsersCollection.find({
+      role: 'lender',
+      $and: [
+        { personalInfo: { $exists: true } },
+        { lenderInfo: { $exists: true } },
+      ],
+    }).fetch();
+
+    if (lenders) {
+      return lenders;
+    } else {
+      throw new Meteor.Error('error', 'Invalid User');
+    }
+  },
 });
 
 Meteor.startup(async () => {

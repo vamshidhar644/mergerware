@@ -5,6 +5,7 @@ import { useState } from 'react';
 const fetchData = () => {
   const { user } = UseAuthContext();
   const [data, setData] = useState();
+  const [lenders, setLenders] = useState([]);
 
   const getUserDate = () => {
     if (user) {
@@ -18,7 +19,19 @@ const fetchData = () => {
     }
   };
 
-  return { getUserDate, data };
+  const getLendersData = () => {
+    if (user) {
+      Meteor.call('users.getLendersData', (error, result) => {
+        if (error) {
+          alert(error.reason || 'Error Fetching user data.');
+        } else {
+          setLenders(result);
+        }
+      });
+    }
+  };
+
+  return { getUserDate, getLendersData, data, lenders };
 };
 
 export default fetchData;
