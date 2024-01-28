@@ -18,7 +18,7 @@ const Home = () => {
       ) : data.role === 'borrower' ? (
         <Borrower data={data} />
       ) : data.role === 'admin' ? (
-        <Admin />
+        <Admin name={data.personalInfo.firstName} id={data._id} />
       ) : (
         <></>
       );

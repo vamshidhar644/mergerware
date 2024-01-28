@@ -31,6 +31,16 @@ Meteor.methods({
     return transaction;
   },
 
+  'transactions.getAll': function () {
+    const transactions = TransactionCollection.find().fetch();
+
+    if (transactions) {
+      return transactions;
+    } else {
+      throw new Meteor.Error('error', 'Invalid User');
+    }
+  },
+
   'transactions.getPending': function ({ id }) {
     const transactions = TransactionCollection.find({
       $or: [{ borrowerId: id }, { lenderId: id }],
