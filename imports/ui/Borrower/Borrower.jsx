@@ -55,10 +55,13 @@ const Borrower = ({ data }) => {
           alert(error.reason || 'Error Fetching user data.');
         } else {
           setPendingTransaction(
-            result.filter((item) => item.repayStatus !== 'paid')
+            result.filter((item) => item.loanStatus === 'pending')
           );
           setCompletedTransaction(
-            result.filter((item) => item.repayStatus === 'paid')
+            result.filter(
+              (item) =>
+                item.repayStatus === 'paid' || item.loanStatus === 'rejected'
+            )
           );
         }
       }

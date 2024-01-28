@@ -57,7 +57,10 @@ const Lender = ({ id, name }) => {
           result.filter((item) => item.loanStatus === 'pending')
         );
         setPendingTransaction(
-          result.filter((item) => item.repayStatus === 'pending')
+          result.filter(
+            (item) =>
+              item.loanStatus === 'approved' || item.repayStatus === 'pending'
+          )
         );
         setCompletedTransaction(
           result.filter(
