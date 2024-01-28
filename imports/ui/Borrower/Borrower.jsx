@@ -17,11 +17,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -39,7 +35,7 @@ function a11yProps(index) {
   };
 }
 
-const Borrower = ({ name }) => {
+const Borrower = ({ id, name }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -70,7 +66,7 @@ const Borrower = ({ name }) => {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            <RequestLoan />
+            <RequestLoan borrowerId={id} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             Item Two

@@ -36,7 +36,30 @@ const postData = () => {
     }
   };
 
-  return { postPersonalInfo, postLendingInfo };
+  const postTransaction = ({
+    borrowerId,
+    lenderId,
+    amount,
+    interestRate,
+    loanStatus,
+    repayStatus,
+  }) => {
+    if (user) {
+      Meteor.call(
+        'transactions.postTransaction',
+        { borrowerId, lenderId, amount, interestRate, loanStatus, repayStatus },
+        (err, res) => {
+          if (err) {
+            alert(err.reason || 'Error sending data.');
+          } else {
+            console.log('Updated succesfully');
+          }
+        }
+      );
+    }
+  };
+
+  return { postPersonalInfo, postLendingInfo, postTransaction };
 };
 
 export default postData;

@@ -20,7 +20,7 @@ const Home = () => {
       return data.role === 'lender' ? (
         <Lender name={data.personalInfo.firstName} />
       ) : data.role === 'borrower' ? (
-        <Borrower name={data.personalInfo.firstName} />
+        <Borrower name={data.personalInfo.firstName} id={data._id} />
       ) : data.role === 'admin' ? (
         <Admin />
       ) : (
