@@ -36,18 +36,21 @@ const postData = () => {
     }
   };
 
-  const postTransaction = ({
-    borrowerId,
-    lenderId,
-    amount,
-    interestRate,
-    loanStatus,
-    repayStatus,
-  }) => {
+  const postTransaction = (data) => {
     if (user) {
+      // console.log(data);
       Meteor.call(
         'transactions.postTransaction',
-        { borrowerId, lenderId, amount, interestRate, loanStatus, repayStatus },
+        {
+          amount: data.amount,
+          borrowerId: data.borrowerId,
+          borrowerInfo: data.borrowerInfo,
+          interestRate: data.interestRate,
+          lenderId: data.lenderId,
+          lenderInfo: data.lenderInfo,
+          loanStatus: data.loanStatus,
+          repayStatus: data.repayStatus,
+        },
         (err, res) => {
           if (err) {
             alert(err.reason || 'Error sending data.');

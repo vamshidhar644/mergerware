@@ -5,6 +5,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import LoanRequests from './LoanRequests';
+import PendingTransactions from './pendingRepayments';
+import CompletedTransactions from './CompletedPayments';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -17,11 +20,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -38,12 +37,40 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-const Lender = ({ name }) => {
+const Lender = ({ id, name }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [pendingTransactions, setPendingTransaction] = useState([]);
+  const [completedTransaction, setCompletedTransaction] = useState([]);
+
+  const fetchPendings = () => {
+    Meteor.call('transactions.getPending', { id }, (error, result) => {
+      if (error) {
+        alert(error.reason || 'Error Fetching user data.');
+      } else {
+        setPendingRequests(
+          result.filter((item) => item.loanStatus === 'pending')
+        );
+        setPendingTransaction(
+          result.filter((item) => item.repayStatus === 'pending')
+        );
+        setCompletedTransaction(
+          result.filter(
+            (item) =>
+              item.repayStatus === 'paid' || item.loanStatus === 'rejected'
+          )
+        );
+      }
+    });
+  };
+  useEffect(() => {
+    fetchPendings();
+  }, []);
 
   return (
     <div>
@@ -67,14 +94,26 @@ const Lender = ({ name }) => {
             >
               <Tab label="Loan Requests" {...a11yProps(0)} />
               <Tab label="Pending Transactions" {...a11yProps(1)} />
-              <Tab label="Previous Transactions" {...a11yProps(2)} />
+              <Tab label="Completed Transactions" {...a11yProps(2)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            Item One
+            <LoanRequests
+              transactions={pendingRequests}
+              fetchPendings={fetchPendings}
+            />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            Item Two
+            <PendingTransactions
+              transactions={pendingTransactions}
+              fetchPendings={fetchPendings}
+            />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
+            <CompletedTransactions
+              transactions={completedTransaction}
+              fetchAgain={fetchPendings}
+            />
           </CustomTabPanel>
         </Box>
       </div>

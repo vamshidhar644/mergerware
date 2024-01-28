@@ -11,28 +11,45 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import RequestCard from './RequestCard';
 
-const RequestLoan = ({ borrowerId }) => {
+const RequestLoan = ({ data }) => {
   const { getLendersData, lenders } = fetchData();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [data, setData] = useState();
+  const [dataa, setData] = useState();
 
   useEffect(() => {
     getLendersData();
   }, []);
 
-  const handleLoanRequest = ({ _id, availFunds, interestRate }) => {
-    const data = {
-      borrowerId: borrowerId,
+  const handleLoanRequest = ({
+    _id,
+    availFunds,
+    interestRate,
+    lenderName,
+    lenderEmail,
+    lenderPhone,
+  }) => {
+    const dataa = {
+      borrowerId: data._id,
       lenderId: _id,
       availFunds: availFunds,
       interestRate: interestRate,
+      lenderInfo: {
+        name: lenderName,
+        email: lenderEmail,
+        phone: lenderPhone,
+      },
+      borrowerInfo: {
+        name: data.personalInfo.firstName,
+        email: data.email,
+        phone: data.personalInfo.phone,
+      },
     };
     handleOpen();
-    setData(data);
+    setData(dataa);
   };
 
   return (
@@ -73,6 +90,9 @@ const RequestLoan = ({ borrowerId }) => {
                         _id: row._id,
                         availFunds: row.lenderInfo.availFunds,
                         interestRate: row.lenderInfo.interestRate,
+                        lenderName: row.personalInfo.firstName,
+                        lenderEmail: row.email,
+                        lenderPhone: row.personalInfo.phone,
                       })
                     }
                     variant="contained"
@@ -82,7 +102,7 @@ const RequestLoan = ({ borrowerId }) => {
                   <RequestCard
                     open={open}
                     handleClose={handleClose}
-                    data={data}
+                    data={dataa}
                   />
                 </TableCell>
               </TableRow>

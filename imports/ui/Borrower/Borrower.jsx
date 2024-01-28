@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import RequestLoan from './RequestLoan';
+import PendingTransactions from './PendingTransactions';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -35,12 +36,38 @@ function a11yProps(index) {
   };
 }
 
-const Borrower = ({ id, name }) => {
+const Borrower = ({ data }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const [pendingTransaction, setPendingTransaction] = useState([]);
+  const [completedTransaction, setCompletedTransaction] = useState([]);
+
+  const fetchPendings = () => {
+    Meteor.call(
+      'transactions.getPending',
+      { id: data._id },
+      (error, result) => {
+        if (error) {
+          alert(error.reason || 'Error Fetching user data.');
+        } else {
+          setPendingTransaction(
+            result.filter((item) => item.repayStatus !== 'paid')
+          );
+          setCompletedTransaction(
+            result.filter((item) => item.repayStatus === 'paid')
+          );
+        }
+      }
+    );
+  };
+
+  useEffect(() => {
+    fetchPendings();
+  }, []);
 
   return (
     <div>
@@ -48,7 +75,9 @@ const Borrower = ({ id, name }) => {
         <div className="dashboard">
           <div>
             <Typography variant="h3">Borrower Dashboard</Typography>
-            <Typography variant="p">Welcome, {name}!</Typography>
+            <Typography variant="p">
+              Welcome, {data.personalInfo.firstName}!
+            </Typography>
           </div>
           <div></div>
         </div>
@@ -66,13 +95,19 @@ const Borrower = ({ id, name }) => {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            <RequestLoan borrowerId={id} />
+            <RequestLoan data={data} fetchAgain={fetchPendings} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            Item Two
+            <PendingTransactions
+              transaction={pendingTransaction}
+              fetchAgain={fetchPendings}
+            />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            Item Three
+            <PendingTransactions
+              transaction={completedTransaction}
+              fetchAgain={fetchPendings}
+            />
           </CustomTabPanel>
         </Box>
       </div>

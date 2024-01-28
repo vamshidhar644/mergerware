@@ -84,4 +84,23 @@ Meteor.methods({
       throw new Meteor.Error('error', 'Invalid User');
     }
   },
+
+  'users.getLender': function ({ id }) {
+    const lender = UsersCollection.findOne({
+      role: 'lender',
+      _id: id,
+      $and: [
+        { personalInfo: { $exists: true } },
+        { lenderInfo: { $exists: true } },
+      ],
+    });
+
+    // console.log(lender);
+
+    if (lender) {
+      return lender;
+    } else {
+      throw new Meteor.Error('error', 'Invalid User');
+    }
+  },
 });

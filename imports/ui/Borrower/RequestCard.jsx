@@ -36,16 +36,13 @@ const RequestCard = ({ open, handleClose, data }) => {
 
   const handleTransaction = async () => {
     const loanStatus = 'pending';
-    const repayStatus = 'pending';
+    const repayStatus = 'yet to accept loan request';
 
-    await postTransaction({
-      borrowerId: data.borrowerId,
-      lenderId: data.lenderId,
-      amount: amount,
-      interestRate: data.interestRate,
-      loanStatus: loanStatus,
-      repayStatus: repayStatus,
-    });
+    data.amount = amount;
+    data.loanStatus = loanStatus;
+    data.repayStatus = repayStatus;
+
+    await postTransaction(data);
 
     handleClose();
   };
