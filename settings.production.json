@@ -1,0 +1,7 @@
+{
+    "galaxy.meteor.com": {
+      "env": {
+        "MONGO_URL": "mongodb+srv://moneylendingapp:moneylendingapp@moneylendingapp.ivoqxua.mongodb.net/?retryWrites=true&w=majority"
+      }
+    }
+  }
